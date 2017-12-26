@@ -135,10 +135,27 @@ public class RNOneSignal extends ReactContextBaseJavaModule implements Lifecycle
             "}");
 
             callback.invoke(RNUtils.jsonToWritableMap(result));
+            System.out.println("getPermissionSubscriptionState success1:: " + result);
+
         } catch (JSONException e) {
             e.printStackTrace();
-            String errorResult = "{'notificationsEnabled' : false, 'subscriptionEnabled': false, 'userSubscriptionEnabled': false }";
-            callback.invoke(RNUtils.jsonToWritableMap(errorResult));
+            System.out.println("first parse exception in getPermissionSubscriptionState:: " + e);
+
+            try {
+                JSONObject errorResult = new JSONObject("{" +
+                        "'notificationsEnabled': " + false + "," +
+                        "'subscriptionEnabled': " + false + "," +
+                        "'userSubscriptionEnabled': " + false +
+                        "}");
+                callback.invoke(RNUtils.jsonToWritableMap(errorResult));
+                System.out.println("getPermissionSubscriptionState success2:: " + errorResult);
+
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+                System.out.println("second parse exception in getPermissionSubscriptionState:: " + e);
+
+            }
+
         }
     }
 
